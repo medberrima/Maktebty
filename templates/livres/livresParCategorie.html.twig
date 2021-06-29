@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% block title%} Liste des Articles par Catégorie{% endblock %}
+{% block body %}
+{{ form_start(form) }}
+  <div class="form-row align-items-end" >
+    <div class="col">
+      {{ form_row(form.theme) }}
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">Rechercher</button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(form) }}
+
+  {% if articles %}
+    	<div class="row ">
+						{% for livre in livres %}
+							<div class="col-md-3 col-sm-4">
+								<a link href="{{livre.codelivre}}">
+									<div class="book">
+										<div class="box">
+											<div class="book-img">
+												<img src={{livre.path}} alt="">
+												<div class="book-label">
+													{% if livre.promo>0  %}
+														<span class="sale">{{livre.promo}}%</span>
+													{% endif %}
+													{% if livre.etat=='New' %}
+														<span class="sale">{{livre.etat}}</span>
+													{% endif %}
+													<!-- <span class="new">NEW</span> -->
+												</div>
+											</div>
+											<div class="book-overlay">
+												<ul>
+													<li><a href="#" class="action-btn"><i class="fa fa-heart "></i></a></li>
+													<li><a href="{{livre.codelivre}}" class="action-btn"><i class="fa fa-eye"></i></a></li>
+													<li><a href="{{path("cart_add", {id: livre.codelivre})}}" class="action-btn"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="book-body">
+											<h3 class="book-name">
+												<a href="{{livre.codelivre}}">{{livre.titre}}</a>
+											</h3>
+											<!-- <p class="book-ather">William Shakespeare</p> -->
+											<h4 class="book-price">{{livre.prix-(livre.prix*(livre.promo/100))}}
+												Dt<del class="book-old-price">
+													{{livre.prix}}Dt</del>
+											</h4>
+											<div class="book-rating">
+												{% if livre.rank>0 %}
+													{% for item in 1..livre.rank %}
+														<i class="fa fa-star active"></i>
+													{% endfor %}
+													{% for item in livre.rank..4 %}
+														<i class="fa fa-star "></i>
+													{% endfor %}
+
+												{% else %}
+													{% for item in 1..5 %}
+														<i class="fa fa-star "></i>
+													{% endfor %}
+												{% endif %}
+
+											</div>
+										</div>
+
+									</div>
+								</a>
+							</div>
+
+						{% endfor %}
+					</div>
+  {% else %}
+    <p>Aucun articles</p>
+  {% endif %}
+{% endblock %}

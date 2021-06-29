@@ -1,0 +1,490 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{{ include('navbar.html.twig')}}
+
+
+	<!-- start filter & books -->
+	<div class=" section">
+		{{ form_start(form) }}
+		<div class="container">
+			<div class="row ">
+				<!-- start filter -->
+				<!-- Menu Toogle -->
+
+					<div id="aside" class="col-md-3  filter"> <div class="menu-toggle mt-5">
+						<a href="#" class="menu text-center ml-3">
+							<i class="fa fa-bars"></i>
+							<span class="h4">Filtre</span>
+						</a>
+					</div>
+					<div class="all-filtre">
+						<div
+							class="aside">
+							<!-- SEARCH BAR -->
+							<div class="">
+								<div class="header-search">
+
+
+									{{ form_row(form.nom, {'label': false ,'attr': {'class':'input', 'placeholder':'Search here'}}) }}
+									<button class="search-btn ">Search</button>
+
+								</div>
+							</div>
+							<!-- /SEARCH BAR -->
+						</div>
+						<div class="aside category ">
+							<h3 class="aside-title">Categories</h3>
+							<div class="checkbox-filter">
+								{% for theme in themes %}
+									<div class="input-checkbox">
+										<input type="checkbox" id="category-1">
+										<label for="category-1">
+											<span></span>
+											{{theme.nomTh}}
+											<small>(120)</small>
+										</label>
+									</div>
+								{% endfor %}
+
+							</div>
+						</div>
+						<div class="aside price ">
+							<h3 class="aside-title">Price</h3>
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min bg-dark">
+									<input id="price-min" type="number" value="1">
+
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input id="price-max" type="number" value="500">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+						</div>
+						<div class="aside author">
+							<h3 class="aside-title">Author</h3>
+							<div class="select-filter">
+								<select name="" id="" class="input-select">
+									{% for auteur in auteurs %}
+										<option value="">{{auteur.nom}} {{auteur.prenom}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="aside Language  ">
+							<h3 class="aside-title">Language
+							</h3>
+							<div class="checkbox-filter">
+								<div class="input-checkbox">
+									<input type="checkbox" id="Language-1">
+									<label for="Language-1">
+										<span></span>
+										Arabic
+										<small>(50)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="Language-2">
+									<label for="Language-2">
+										<span></span>
+										Français
+										<small>(15)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="Language-3">
+									<label for="Language-3">
+										<span></span>
+										English
+										<small>(120)</small>
+									</label>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end filter -->
+				<!-- start aside books -->
+				<div id="books" class="col-md-9">
+					<div class="books-filter clearfix">
+						<div class="books-sort " style="margin-top: 10px;">
+							<label>
+								Sort By:
+								<select class="input-select">
+									<option value="0">Popular Books</option>
+									<option value="1">Price : low to high</option>
+									<option value="1">Price : high to low</option>
+									<option value="1">New Books</option>
+								</select>
+							</label>
+							<label>
+								Show:
+								<select class="input-select">
+									<option value="0">10</option>
+									<option value="0">20</option>
+									<option value="1">30</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<!--start  books  -->
+					<div class="row ">
+						{% for livre in livres %}
+							<div class="col-md-3 col-sm-4">
+								<a link href="{{livre.codelivre}}">
+									<div class="book">
+										<div class="box">
+											<div class="book-img">
+												<img src={{livre.path}} alt="">
+												<div class="book-label">
+													{% if livre.promo>0  %}
+														<span class="sale">{{livre.promo}}%</span>
+													{% endif %}
+													{% if livre.etat=='New' %}
+														<span class="sale">{{livre.etat}}</span>
+													{% endif %}
+													<!-- <span class="new">NEW</span> -->
+												</div>
+											</div>
+											<div class="book-overlay">
+												<ul>
+													<li><a href="#" class="action-btn"><i class="fa fa-heart "></i></a></li>
+													<li><a href="{{livre.codelivre}}" class="action-btn"><i class="fa fa-eye"></i></a></li>
+													<li><a href="{{path("cart_add", {id: livre.codelivre})}}" class="action-btn"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="book-body">
+											<h3 class="book-name">
+												<a href="{{livre.codelivre}}">{{livre.titre}}</a>
+											</h3>
+											<h4 class="book-price">{{livre.prix-(livre.prix*(livre.promo/100))}}
+												Dt<del class="book-old-price">
+													{{livre.prix}}Dt</del>
+											</h4>
+											<div class="book-rating">
+												{% if livre.rank>0 %}
+													{% for item in 1..livre.rank %}
+														<i class="fa fa-star active"></i>
+													{% endfor %}
+													{% for item in livre.rank..4 %}
+														<i class="fa fa-star "></i>
+													{% endfor %}
+
+												{% else %}
+													{% for item in 1..5 %}
+														<i class="fa fa-star "></i>
+													{% endfor %}
+												{% endif %}
+
+											</div>
+										</div>
+
+									</div>
+								</a>
+							</div>
+
+						{% endfor %}
+					</div>
+
+					<div class="" style="margin-left: 25%;">
+						<nav aria-label="...">
+							<ul class="pagination ">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1">Previous</a>
+								</li>
+								<li class="page-item active">
+									<a class="page-link" href="#">1
+										<span class="sr-only">(current)</span>
+									</a>
+								</li>
+								<li class="page-item ">
+									<a class="page-link" href="#">2
+									</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">3</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">4</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">5</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">6</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">7</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">Next</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- end aside books -->
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>
+	<!-- end filter & books -->
+
+	{# start slider #}
+	<div class="slider-offre section">
+		<a
+			href="" class="item1"><!-- <div class="offre-item item1"></div> -->
+		</a>
+		<a
+			href="" class="item2"><!-- <div class="offre-item item2"></div> -->
+		</a>
+		<a
+			href="" class="item3"><!-- <div class="offre-item item3"></div> -->
+		</a>
+	</div>
+	{# end slider #}
+
+	<!-- start new_books -->
+	<section class="new_books">
+		<div class="container">
+			<div class="row">
+				<h3 class="title">new books</h3>
+				<div class="list-book mt-5">
+					{% for new_book in new_books %}
+						<div class="col-md-3 col-sm-4">
+							<a link href="{{new_book.codelivre}}">
+								<div class="book">
+									<div class="box">
+										<div class="book-img">
+											<img src={{new_book.path}} alt="">
+											<div class="book-label">
+											{% if new_book.promo>0  %}
+											<span class="sale">{{new_book.promo}}%</span>
+											{% endif %}
+										
+												{% if new_book.etat=='New' %}
+													<span class="sale">{{new_book.etat}}</span>
+												{% endif %}
+											</div>
+										</div>
+										<div class="book-overlay">
+											<ul>
+												<li><a href="#" class="action-btn"><i class="fa fa-heart "></i></a></li>
+												<li><a href="{{new_book.codelivre}}" class="action-btn"><i class="fa fa-eye"></i></a></li>
+												<li><a href="{{path("cart_add", {id: new_book.codelivre})}}" class="action-btn"><i class="fa fa-shopping-cart" ></i></a></li>
+
+											</ul>
+										</div>
+									</div>
+									<div class="book-body">
+										<h3 class="book-name">
+											<a href="{{new_book.codelivre}}">{{new_book.titre}}</a>
+										</h3>
+										<!-- <p class="book-ather">William Shakespeare</p> -->
+										<h4 class="book-price">{{new_book.prix-(new_book.prix*(new_book.promo/100))}}
+											Dt<del class="book-old-price">
+												{{new_book.prix}}Dt</del>
+										</h4>
+										<div class="book-rating">
+											{% if new_book.rank>0 %}
+												{% for item in 1..new_book.rank %}
+													<i class="fa fa-star active"></i>
+												{% endfor %}
+												{% for item in new_book.rank..4 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+
+											{% else %}
+												{% for item in 1..5 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+											{% endif %}
+
+										</div>
+									</div>
+
+								</div>
+							</a>
+						</div>
+
+					{% endfor %}
+				</div>
+				<div class="btn-slick text-right mr-5">
+					<button type="button" class="btn-prev "></button>
+					<button type="button" class="btn-next "></button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end new_books -->
+
+	<!-- start top-rated  -->
+	<section class="top-rated ">
+		<div class="container">
+			<div class="row">
+				<h3 class="title">Top rated books :
+				</h3>
+				<div class="list-book mt-5">
+					{% for rated_book in rated_books %}
+						<div class="col-md-3 col-sm-4">
+							<a link href="{{rated_book.codelivre}}">
+								<div class="book">
+									<div class="box">
+										<div class="book-img">
+											<img src={{rated_book.path}} alt="">
+											<div class="book-label">
+												{% if rated_book.promo>0  %}
+											<span class="sale">{{rated_book.promo}}%</span>
+											{% endif %}
+												{% if rated_book.etat=='New' %}
+													<span class="sale">{{rated_book.etat}}</span>
+												{% endif %}
+												<!-- <span class="new">NEW</span> -->
+											</div>
+										</div>
+										<div class="book-overlay">
+											<ul>
+												<li><a href="#" class="action-btn"><i class="fa fa-heart "></i></a></li>
+												<li><a href="{{rated_book.codelivre}}" class="action-btn"><i class="fa fa-eye"></i></a></li>
+												<li><a href="{{path("cart_add", {id: rated_book.codelivre})}}" class="action-btn"><i class="fa fa-shopping-cart" ></i></a></li>
+
+											</ul>
+										</div>
+									</div>
+									<div class="book-body">
+										<h3 class="book-name">
+											<a href="{{rated_book.codelivre}}">{{rated_book.titre}}</a>
+										</h3>
+										<!-- <p class="book-ather">William Shakespeare</p> -->
+										<h4 class="book-price">{{rated_book.prix-(rated_book.prix*(rated_book.promo/100))}}
+											Dt<del class="book-old-price">
+												{{rated_book.prix}}Dt</del>
+										</h4>
+										<div class="book-rating">
+											{% if rated_book.rank>0 %}
+												{% for item in 1..rated_book.rank %}
+													<i class="fa fa-star active"></i>
+												{% endfor %}
+												{% for item in rated_book.rank..4 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+
+											{% else %}
+												{% for item in 1..5 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+											{% endif %}
+
+										</div>
+									</div>
+
+								</div>
+							</a>
+						</div>
+
+					{% endfor %}
+				</div>
+				<div class="btn-slick text-right mr-5">
+					<button type="button" class="btn-prev "></button>
+					<button type="button" class="btn-next "></button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end top-rated  -->
+
+	<!-- start best-sellers -->
+	<section class="best-sellers ">
+		<div class="container">
+			<div class="row">
+				<h3 class="title">Books in promo:
+				</h3>
+				<div class="list-book mt-5">
+					{% for Promo_book in Promo_books %}
+						<div class="col-md-3 col-sm-4">
+							<a link href="{{Promo_book.codelivre}}">
+								<div class="book">
+									<div class="box">
+										<div class="book-img">
+											<img src={{Promo_book.path}} alt="">
+											<div class="book-label">
+												{% if Promo_book.promo>0  %}
+													<span class="sale">{{Promo_book.promo}}%</span>
+												{% endif %}
+												{% if Promo_book.etat=='New' %}
+													<span class="sale">{{Promo_book.etat}}</span>
+												{% endif %}
+												<!-- <span class="new">NEW</span> -->
+											</div>
+										</div>
+										<div class="book-overlay">
+											<ul>
+												<li>
+													<a href="#" class="action-btn">
+														<i class="fa fa-heart "></i>
+													</a>
+												</li>
+												<li>
+													<a href="{{Promo_book.codelivre}}" class="action-btn">
+														<i class="fa fa-eye"></i>
+													</a>
+												</li>
+												<li>
+													<li><a href="{{path("cart_add", {id: Promo_book.codelivre})}}" class="action-btn"><i class="fa fa-shopping-cart" ></i></a></li>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="book-body">
+										<h3 class="book-name">
+											<a href="{{Promo_book.codelivre}}">{{Promo_book.titre}}</a>
+										</h3>
+										<!-- <p class="book-ather">William Shakespeare</p> -->
+										<h4 class="book-price">{{Promo_book.prix-(Promo_book.prix*(Promo_book.promo/100))}}
+											Dt<del class="book-old-price">
+												{{Promo_book.prix}}Dt</del>
+										</h4>
+										<div class="book-rating">
+											{% if Promo_book.rank>0 %}
+												{% for item in 1..Promo_book.rank %}
+													<i class="fa fa-star active"></i>
+												{% endfor %}
+												{% for item in Promo_book.rank..4 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+
+											{% else %}
+												{% for item in 1..5 %}
+													<i class="fa fa-star "></i>
+												{% endfor %}
+											{% endif %}
+
+										</div>
+									</div>
+
+								</div>
+							</a>
+						</div>
+
+					{% endfor %}
+				</div>
+				<div class="btn-slick text-right mr-5">
+					<button type="button" class="btn-prev "></button>
+					<button type="button" class="btn-next "></button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end best-sellers  -->
+	<script src="{{asset('js/main.js')}}"></script>
+	{{ include('footer.html.twig')}}
+
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MakTabty - Panier
+{% endblock %}
+
+{% block body %}
+	{% include ('navbar.html.twig') %}
+
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div
+			class="container">
+			<!-- row -->
+			<div class="row">
+
+				<div
+					class="col-md-5">
+					<!-- Billing Details -->
+					<div class="billing-details">
+						<div class="section-title">
+							<h3 class="title">Billing address</h3>
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="first-name" placeholder="First Name">
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="last-name" placeholder="Last Name">
+						</div>
+						<div class="form-group">
+							<input class="input" type="email" name="email" placeholder="Email">
+						</div>
+						<div class="form-group">
+							<input class="input" type="tel" name="tel" placeholder="Telephone">
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="address" placeholder="Address">
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="city" placeholder="City">
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="country" placeholder="Country">
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+						</div>
+
+						<div class="form-group">
+							<div class="input-checkbox">
+								<input type="checkbox" id="create-account">
+								<label for="create-account">
+									<span></span>
+									You have an Account?
+								</label>
+								<div class="caption m-5">
+									<input class="input my-5" type="text" name="adresse" placeholder="Enter Your UserName">
+									<input class="input py-5" type="password" name="password" placeholder="Enter Your Password">
+									<button class="primary-btn text-center">Sign In</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /Billing Details -->
+				</div>
+
+				<!--start Order Details -->
+				<h3 class="title">Your Books Order</h3>
+				<div class="col-md-7 order-details">
+					<div class="section-title text-center"></div>
+					<div class="order-summary">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Img</th>
+									<th scope="col">Title</th>
+									<th scope="col">Price</th>
+									<th scope="col">Qte</th>
+									<th scope="col">final price</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% set nb = 0 %}
+								{% for liv in dataPanier %}
+									<tr>
+										{% set nb = nb + 1 %}
+										<td scope="row">
+											<p>{{nb}}</p>
+										</td>
+										<td id="img-book"><img src="{{asset(liv.livre.path)}}" alt="book-img"></td>
+										<td>
+											<p>{{ liv.livre.titre }}</p>
+										</td>
+										<td>
+											<p>{{ liv.livre.prix-(liv.livre.prix*(liv.livre.promo/100)) }}DT</p>
+										</td>
+										<td>
+											<p>x {{ liv.quantite}}</p>
+										</td>
+										<td>
+											<p>{{ (liv.livre.prix-(liv.livre.prix*(liv.livre.promo/100)))*liv.quantite }}DT</p>
+										</td>
+										<td>
+											<a href="{{path("cart_delete", {id: liv.livre.codelivre})}}" class="btn btn-danger">
+												<i class="fa  fa-trash-o"></i>
+											</a>
+											<a href="{{path("cart_remove", {id: liv.livre.codelivre})}}" class="btn btn-warning ">
+												<i class="fa fa-minus"></i>
+											</a>
+											<a href="{{path("cart_add", {id: liv.livre.codeLivre})}}" class="btn btn-success ">
+												<i class="fa fa-plus"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+						{#  end Order Details  #}
+						<div class="order-col">
+							<div>Shiping</div>
+							<div>
+								<strong>FREE</strong>
+							</div>
+						</div>
+						<div class="order-col">
+							<div>
+								<strong>TOTAL</strong>
+							</div>
+							<div>
+								<strong class="order-total">{{ total }} DT</strong>
+								<a href="{{path("cart_delete_all")}}" class="btn btn-danger">
+									<i class="fa fa-shopping-cart"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="payment-method">
+						<div class="input-radio">
+							<input type="radio" name="payment" id="payment-1">
+							<label for="payment-1">
+								<span></span>
+								Bank Card
+							</label>
+							<div class="caption">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+						<div class="input-radio">
+							<input type="radio" name="payment" id="payment-2">
+							<label for="payment-2">
+								<span></span>
+								Cash on delivery
+							</label>
+							<div class="caption">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+						<div class="input-radio">
+							<input type="radio" name="payment" id="payment-3">
+							<label for="payment-3">
+								<span></span>
+								Paypal System
+							</label>
+							<div class="caption">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+					</div>
+					<div class="input-checkbox">
+						<input type="checkbox" id="terms">
+						<label for="terms">
+							<span></span>
+							I've read and accept the
+							<a href="#">terms & conditions</a>
+						</label>
+					</div>
+					<a href="#" class="primary-btn order-submit">Place order</a>
+				</div>
+				<!-- /Order Details -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+	{{ include('footer.html.twig')}}
+
+{% endblock %}

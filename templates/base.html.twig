@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}MakTabty - Website{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+						<link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/x-icon">
+
+            <!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+
+	<!-- nouislider (price filter) -->
+	<link rel="stylesheet" href="{{asset('css/nouislider.min.css')}}">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{{asset('css/style.css')}}"/>
+
+	<!-- slick -->
+	<link type="text/css" rel="stylesheet" href="{{asset('css/slick.css')}}"/>
+	<link type="text/css" rel="stylesheet" href="{{asset('css/slick-theme.css')}}"/>
+        {% endblock %}
+
+        {% block javascripts %}
+            <!-- jQuery  -->
+	<script src="{{asset('js/jquery.min.js')}}"></script>
+	<!-- <script src="js/jquery.zoom.min.js')}}"></script> -->
+
+	<!-- bootstrap js -->
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/slick.min.js')}}"></script>
+
+	<!-- nouislider(price filter) js -->
+	<script src="{{asset('js/nouislider.min.js')}}"></script>
+
+	<!-- Custom	javscript&jquery file -->
+	<script src="{{asset('public/js/main.js')}}"></script>
+        {% endblock %}
+    </head>
+    <body>
+    
+  
+     
+        {% block body %}
+		{% endblock %}
+    </body>
+</html>
